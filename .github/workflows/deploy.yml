@@ -1,22 +1,22 @@
-name: Deploy to Github Pages
+name: Deploy to GitHub Pages
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  gh-pages-deploy:
-    name: Deploying to Github Pages
+  deploy:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2.5.0
-        - uses: actions/setup-node@v3.6.0
-        - name: Install packages
-          run: yarn
-        - name: Build 🔧
-          run: yarn build
-        - name: Upload GitHub Pages artifact
-          uses: actions/upload-pages-artifact@v1.0.7
-          with:
-            path: dist/
-        - name: Deploy GitHub Pages site
-          uses: actions/deploy-pages@v1.2.4
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Build the project
+        run: yarn build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
